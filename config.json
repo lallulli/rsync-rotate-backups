@@ -1,0 +1,17 @@
+{
+	"rotation_scheme": {
+		"daily": 2,
+		"weekly": 2,
+		"monthly": 2
+	},
+	"backups": [
+		{
+			"src": "root@www.example.com:/var/www",
+			"dst": "/home/backup/data/example-www"
+		},
+		{
+			"src": "root@www.example.com:/home/foo",
+			"dst": "/home/backup/data/example-foo"
+		}
+	]
+}
