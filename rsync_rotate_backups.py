@@ -15,7 +15,7 @@ def create_dir_if_not_existing(path, recurse=False):
 		os.mkdir(path)
 
 
-def backup(src, dst, rotation_scheme=None):
+def backup(src, dst, rotation_scheme=None, exclude=None):
 	"""
 	Backup and rotate from a source to a destination directory
 
@@ -36,6 +36,14 @@ def backup(src, dst, rotation_scheme=None):
 		"--del",
 		"-avzhe",
 		"ssh",
+	]
+	if exclude is not None:
+		for e in exclude:
+			rsync_cmd += [
+				"--exclude",
+				e,
+			]
+	rsync_cmd += [
 		src,
 		dst_latest,
 	]
@@ -65,7 +73,8 @@ def backup_all(config_file):
 		config = json.load(f)
 	rs = config.get("rotation_scheme")
 	for c in config['backups']:
-		backup(c['src'], c['dst'], rs)
+		exclude = c.get('exclude')
+		backup(c['src'], c['dst'], rs, exclude)
 
 
 if __name__ == '__main__':
